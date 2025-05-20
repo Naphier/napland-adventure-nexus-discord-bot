@@ -176,3 +176,8 @@ cython_debug/
 .env
 run_register_command.bat
 .vscode
+
+.terraform/
+builds/
+*.tfstate
+.terraform.lock.hcl
