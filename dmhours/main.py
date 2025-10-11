@@ -3,52 +3,50 @@ import pandas as pd
 
 # Reinitialize the raw data
 data = """
-Gammøn UTC -7 — 8/3/2025 12:48 PM
-2025-08-03; RV-DC-FTS-03 The Eternal Order; 2.5HRs
-Bloo37 (UTC -5/US Central) — 8/5/2025 4:46 PM
-2025-08-4; Menace Under Otari (Part 1); 3 Hours
-Varvatos Vex (UTC -7) — 8/5/2025 6:48 PM
-2025-08-04; Out of the Abyss (Session Sixty-Five); 3 hours
-DigitalMatt (UTC-5/EST) — 8/7/2025 10:53 PM
-2025-08-07; FR-DC-MELB-01-06 Syncopated Denouement; 3 hours
-Gammøn UTC -7 — 8/10/2025 1:22 PM
-2025-08-08; AD&D2ePbP Lords of Darkness Week Four; 1HR
-Varvatos Vex (UTC -7) — 8/13/2025 7:50 PM
-2025-08-12; Out of the Abyss (Session Sixty-Six); 3 hours
-Gammøn UTC -7 — 8/15/2025 2:09 AM
-2025--08-14; Volo Back the Dead PbP Finale; 4HRs
-sterling UTC-6 — 8/16/2025 10:23 AM
-2025-08-15; Ad Astra: Lone Survivors Part 1, 2.5 hrs
-Gammøn UTC -7 — 8/17/2025 1:30 PM
-2025-08-15; AD&D2ePbP Lords of  Darkness Week Five; 1HR
-Gammøn UTC -7 — 8/17/2025 1:30 PM
-2025-08-17; FTS04 The Eye of Ezra; 2.5HRs
-Varvatos Vex (UTC -7) — 8/20/2025 5:22 PM
-2025-08-18; Out of the Abyss (Session Sixty-Seven); 3.5 hours 
-Bloo37 (UTC -5/US Central) — 8/20/2025 7:39 PM
-2025-08-18; Menace Under Otari (Part 2); 3 Hours
-sterling UTC-6 — 8/23/2025 12:25 AM
-2025-08-22: Ad Astra Lone Survivors part 2, 3.5 hrs
-Gammøn UTC -7 — 8/23/2025 2:22 PM
-2025-08-22; AD&D2ePbP Lords of Darkness Week Six; 1HR
-Gammøn UTC -7 — 8/24/2025 12:17 PM
-2024-08-24; DCE11 The Well of Reorx; 2HRs
-divot (UTC -5) — 8/25/2025 11:56 PM
-2025-08-25; Chronicles of Xandari: It Came From Below; 3 hours
-Varvatos Vex (UTC -7) — 8/27/2025 12:03 PM
-2025-08-26; Out of the Abyss (Session Sixty-Eight); 3 hours
-Gammøn UTC -7 — 8/28/2025 9:10 PM
-2025-08-28; DCE11 The Well of Reorx (Second Offering); 2HRs
-Matrix (UTC-4/-5 in DST) — 8/28/2025 9:54 PM
-2025-08-28; DDAL00-08  Layers Upon Layers PBP; 3 hours
-Gammøn UTC -7 — 8/31/2025 1:00 PM
-2025-08-29; AD&D2ePBP Lords of Darkness Week Seven; 1HR 
-Gammøn UTC -7 — 8/31/2025 1:00 PM
-2025-08-31; RV-DC-ROE-01 Roots of Evil (Vallaki Part One); 3HRs
-Bloo37 (UTC -5/US Central) — 9/2/2025 12:13 AM
-2025-09-1; Menace Under Otari (Part 3); 3 Hours
-DigitalMatt (UTC-5/EST) — 9/4/2025 9:29 PM
-2025-09-04; FR-DC-MELB-01-07 Secrets In the Deep; 2 hours
+sterling UTC-6 — 9/8/2025 12:48 AM
+Like a Bard Outta Hell 2025-09-07 3.5 hrs
+Gammøn UTC -7 — 9/8/2025 2:23 PM
+2025-09-05; AD&D2ePbP Lords of Darkness Wk08; 1HR
+Varvatos Vex (UTC -7) — 9/10/2025 12:01 PM
+2025-09-02; Out of the Abyss (Session Sixty-Nine); 3 hours
+Varvatos Vex (UTC -7) — 9/10/2025 12:01 PM
+2025-09-09; Out of the Abyss (Session Seventy); 3 hours
+Varvatos Vex (UTC -7) — 9/10/2025 12:01 PM
+2025-09-01; DDAL-09-08 (In the Garden of Evil); 5 hours
+DigitalMatt (UTC-5/EST) — 9/11/2025 8:52 PM
+2025-09-11; FR-DC-MELB-01-07 Secrets In the Deep; 2 hours
+sterling UTC-6 — 9/14/2025 12:10 AM
+2025-09-13 Ad Astra: The Highest Bidder 3hrs
+divot (UTC -5) — 9/15/2025 11:58 PM
+2025-09-15 Chronicles of Xandari: Tussle at Tide Pool Tavern part 1; 2 hours
+Varvatos Vex (UTC -7) — 9/17/2025 1:42 PM
+2025-09-16; Out of the Abyss (Session Seventy-One); 3 hours
+Gammøn UTC -7 — 9/17/2025 1:43 PM
+2025-09-12; AD&D2ePbP Lords of Darkness Wk09; 1HR
+sterling UTC-6 — 9/20/2025 10:46 AM
+2025-09-19 Ad Astra: The Highest Bidder Part 2, 3 hours
+Gammøn UTC -7 — 9/20/2025 5:31 PM
+2025-09-19; AD$D2ePbP Lords of Darkness Wk10; 1HR
+Gammøn UTC -7 — 9/21/2025 12:57 PM
+2025-09-21; Roots of Evil Part 2; 3HRs
+divot (UTC -5) — 9/22/2025 10:13 PM
+2025-09-22; Chronicles of Darkness: Tussle at Tide Pool Tavern part 2; 1 hour
+Varvatos Vex (UTC -7) — 9/25/2025 9:13 PM
+2025-09-23; Out of the Abyss (Session Seventy-Two); 3 hours
+Gammøn UTC -7 — 9/27/2025 5:26 PM
+2025-09-26; Lords of Darkness WK11: 1HR
+Gammøn UTC -7 — 9/28/2025 12:24 PM
+2025-09-28; DCE12-The Fall of Tarsis; 2HRs
+DigitalMatt (UTC-5/EST) — 10/2/2025 10:47 PM
+2025-10-02; DDHC-DD-01 Death at Sunset; 3 hours
+Gammøn UTC -7 — 10/6/2025 1:14 AM
+2025-10-05; Roots of Evil Part Three; 3.5HRs
+sterling UTC-6 — 10/7/2025 9:48 AM
+2025-10-06 Happy Jack's Funhouse Part 1, 3 hrs
+Matrix (UTC-4/-5 in DST) — Yesterday at 11:18 PM
+2025-10-04 and 20205-10-10   DDAL05-14  Reeducation; 5 hours
+Gammøn UTC -7 — Yesterday at 11:53 PM
+2025-10-09; DCE12 Fall of Tarsis; 2HRs
 """
 
 # Splitting the data into lines
