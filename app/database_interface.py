@@ -20,3 +20,7 @@ class DatabaseInterface:
     def delete_record(self, record_id: str) -> None:
         """Remove a record from the backing store."""
         return None
+
+    def fetch_records(self, start_date=None, end_date=None, discord_name: Optional[str] = None):
+        """Return iterable records constrained by optional filters."""
+        return []

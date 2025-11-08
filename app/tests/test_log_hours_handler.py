@@ -1,6 +1,5 @@
+import unittest
 from datetime import date
-
-import pytest
 
 from app.database_interface import DatabaseInterface
 from app.log_hours_handler import LogHoursHandler
@@ -14,77 +13,71 @@ class FakeDatabase(DatabaseInterface):
         self.created_records.append(data)
 
 
-@pytest.fixture
-def database():
-    return FakeDatabase()
+class LogHoursHandlerTestCase(unittest.TestCase):
+    def setUp(self):
+        self.database = FakeDatabase()
+        self.handler = LogHoursHandler(self.database)
+        self.user_id = "user-123"
+
+    def test_handle_persists_record_and_returns_confirmation(self):
+        options = [
+            {"name": "event", "value": "Weekly Raid"},
+            {"name": "hours", "value": 2.5},
+            {"name": "date", "value": "2024-06-01"},
+        ]
+
+        message = self.handler.handle(options, self.user_id)
+
+        self.assertEqual(
+            message,
+            "Logged 2.5 hours for 'Weekly Raid' on 2024-06-01.",
+        )
+        self.assertEqual(len(self.database.created_records), 1)
+        record = self.database.created_records[0]
+        self.assertEqual(record["user_id"], self.user_id)
+        self.assertEqual(record["event_name"], "Weekly Raid")
+        self.assertEqual(record["hours"], 2.5)
+        self.assertEqual(record["event_date"], date(2024, 6, 1))
+
+    def test_handle_rejects_invalid_date_format(self):
+        options = [
+            {"name": "event", "value": "Weekly Raid"},
+            {"name": "hours", "value": 2},
+            {"name": "date", "value": "06-01-2024"},
+        ]
+
+        with self.assertRaisesRegex(ValueError, "YYYY-MM-DD"):
+            self.handler.handle(options, self.user_id)
+
+    def test_handle_rejects_non_positive_hours(self):
+        options = [
+            {"name": "event", "value": "Weekly Raid"},
+            {"name": "hours", "value": 0},
+            {"name": "date", "value": "2024-06-01"},
+        ]
+
+        with self.assertRaisesRegex(ValueError, "greater than zero"):
+            self.handler.handle(options, self.user_id)
+
+    def test_handle_rejects_empty_event_name(self):
+        options = [
+            {"name": "event", "value": "   "},
+            {"name": "hours", "value": 2},
+            {"name": "date", "value": "2024-06-01"},
+        ]
+
+        with self.assertRaisesRegex(ValueError, "event name cannot be empty"):
+            self.handler.handle(options, self.user_id)
+
+    def test_handle_detects_missing_option(self):
+        options = [
+            {"name": "event", "value": "Weekly Raid"},
+            {"name": "hours", "value": 2},
+        ]
+
+        with self.assertRaisesRegex(ValueError, "Missing required option"):
+            self.handler.handle(options, self.user_id)
 
 
-@pytest.fixture
-def handler(database):
-    return LogHoursHandler(database)
-
-
-@pytest.fixture
-def user_id():
-    return "user-123"
-
-
-def test_handle_persists_record_and_returns_confirmation(handler, database, user_id):
-    options = [
-        {"name": "event", "value": "Weekly Raid"},
-        {"name": "hours", "value": 2.5},
-        {"name": "date", "value": "2024-06-01"},
-    ]
-
-    message = handler.handle(options, user_id)
-
-    assert message == "Logged 2.5 hours for 'Weekly Raid' on 2024-06-01."
-    assert len(database.created_records) == 1
-    record = database.created_records[0]
-    assert record["user_id"] == user_id
-    assert record["event_name"] == "Weekly Raid"
-    assert record["hours"] == 2.5
-    assert record["event_date"] == date(2024, 6, 1)
-
-
-def test_handle_rejects_invalid_date_format(handler, user_id):
-    options = [
-        {"name": "event", "value": "Weekly Raid"},
-        {"name": "hours", "value": 2},
-        {"name": "date", "value": "06-01-2024"},
-    ]
-
-    with pytest.raises(ValueError, match="YYYY-MM-DD"):
-        handler.handle(options, user_id)
-
-
-def test_handle_rejects_non_positive_hours(handler, user_id):
-    options = [
-        {"name": "event", "value": "Weekly Raid"},
-        {"name": "hours", "value": 0},
-        {"name": "date", "value": "2024-06-01"},
-    ]
-
-    with pytest.raises(ValueError, match="greater than zero"):
-        handler.handle(options, user_id)
-
-
-def test_handle_rejects_empty_event_name(handler, user_id):
-    options = [
-        {"name": "event", "value": "   "},
-        {"name": "hours", "value": 2},
-        {"name": "date", "value": "2024-06-01"},
-    ]
-
-    with pytest.raises(ValueError, match="event name cannot be empty"):
-        handler.handle(options, user_id)
-
-
-def test_handle_detects_missing_option(handler, user_id):
-    options = [
-        {"name": "event", "value": "Weekly Raid"},
-        {"name": "hours", "value": 2},
-    ]
-
-    with pytest.raises(ValueError, match="Missing required option"):
-        handler.handle(options, user_id)
+if __name__ == "__main__":
+    unittest.main()

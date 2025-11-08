@@ -41,7 +41,7 @@ class Logger:
                 }
             )
 
-        timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-4]
+        timestamp = datetime.now().strftime("%H%M%S.%f")[:-4]
         return f"[{timestamp}][{self._source}][{level}]: {text}"
 
     def _json_mode_enabled(self) -> bool:
@@ -63,4 +63,3 @@ class Logger:
 
 def get_logger(source: str | None = None) -> Logger:
     return Logger(source)
-

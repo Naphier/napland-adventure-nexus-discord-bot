@@ -2,7 +2,7 @@ import json
 import requests
 
 
-def reply(message, interaction_id, token):
+def reply(message, interaction_id, token, ephemeral: bool = False):
     url = f"https://discord.com/api/interactions/{interaction_id}/{token}/callback"
 
     callback_data = {
@@ -11,6 +11,10 @@ def reply(message, interaction_id, token):
             "content": message
         }
     }
+
+    if ephemeral:
+        callback_data["data"]["flags"] = 64
+
     response = requests.post(url, json=callback_data)
     return response
 

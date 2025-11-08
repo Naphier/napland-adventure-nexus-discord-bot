@@ -46,6 +46,30 @@ json = [
         'required': True
       }
     ]
+  },
+  {
+    "name": "display",
+    "description": "Display logged DM Hours",
+    "options": [
+      {
+        'name': 'from',
+        'description': 'Start date (YYYY-MM-DD)',
+        'type': 3,
+        'required': False
+      },
+      {
+        'name': 'to',
+        'description': 'End date (YYYY-MM-DD)',
+        'type': 3,
+        'required': False
+      },
+      {
+        'name': 'discord_name',
+        'description': 'Filter results by Discord username',
+        'type': 3,
+        'required': False
+      }
+    ]
   }
 ]
 
