@@ -1,12 +1,20 @@
-import requests
 import os
+import requests
+
+try:
+    from logger import Logger
+except ImportError:  # pragma: no cover
+    from app.logger import Logger
 
 
+LOG = Logger(__file__)
 APP_ID = os.getenv("APP_ID")
 SERVER_ID = os.getenv("SERVER_ID")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-print(APP_ID, SERVER_ID, BOT_TOKEN[:5] + "*****")
+LOG.info(
+    f"Registering commands for app_id={APP_ID} server_id={SERVER_ID} token={BOT_TOKEN[:5]}*****"
+)
 # global commands are cached and only update every hour
 # url = f"https://discord.com/api/v10/applications/{APP_ID}/commands"
 
@@ -41,8 +49,9 @@ json = [
   }
 ]
 
-response = requests.put(url, headers={
+response = requests.put(
+    url, headers={
   "Authorization": f"Bot {BOT_TOKEN}"
 }, json=json)
 
-print(response.json())
+LOG.info(f"Discord response: {response.json()}")
