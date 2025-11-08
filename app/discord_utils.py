@@ -1,6 +1,11 @@
 import json
 import requests
 
+try:  # pragma: no cover
+    from utils import build_response
+except ImportError:  # pragma: no cover
+    from app.utils import build_response
+
 
 def reply(message, interaction_id, token, ephemeral: bool = False):
     url = f"https://discord.com/api/interactions/{interaction_id}/{token}/callback"
@@ -28,12 +33,3 @@ def extract_user_id(body):
         return user["id"]
     raise ValueError("Unable to determine the user ID for this interaction")
 
-
-def interaction_response():
-    return {
-        "statusCode": 200,
-        "body": json.dumps({"status": "ok"}),
-        "headers": {
-            "Content-Type": "application/json"
-        }
-    }
