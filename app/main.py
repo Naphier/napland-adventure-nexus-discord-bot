@@ -1,10 +1,23 @@
 import json
 import os
-import requests
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
 
+try:
+    from logger import Logger
+    from log_hours_handler import LogHoursHandler
+    from database_interface import DatabaseInterface
+    from discord_utils import reply, extract_user_id, interaction_response
+except ImportError:  # pragma: no cover
+    from app.logger import Logger
+    from app.log_hours_handler import LogHoursHandler
+    from app.database_interface import DatabaseInterface
+    from app.discord_utils import reply, extract_user_id, interaction_response
+
 PUBLIC_KEY = os.getenv("PUBLIC_KEY")
+_database = DatabaseInterface()
+_log_hours_handler = LogHoursHandler(_database)
+LOG = Logger(__file__)
 
 def lambda_handler(event, context):
     body = json.loads(event["body"])
@@ -24,7 +37,7 @@ def lambda_handler(event, context):
             }
         }
     
-    t == body["type"]
+    t = body["type"]
     if t == 1:
         # Respond to the challenge
         return {
@@ -51,14 +64,22 @@ def lambda_handler(event, context):
 def handle_interaction(body, context):
     command = body["data"]["name"]
     options = body["data"].get("options", [])
+    interaction_id = body["id"]
+    token = body["token"]
 
-def reply(message, id, token):
-    url = f"https://discord.com/api/interactions/{id}/{token}/callback"
+    if command == "log":
+        try:
+            user_id = extract_user_id(body)
+            confirmation = _log_hours_handler.handle(options, user_id)
+        except ValueError as exc:
+            reply(str(exc), interaction_id, token)
+            return interaction_response()
 
-    callback_data = {
-        "type": 4,
-        "data": {
-            "content": message
-        }
-    }
-    response = requests.post(url, json=callback_data)
+        reply(confirmation, interaction_id, token)
+        return interaction_response()
+
+    reply(f"Command '{command}' is not supported yet.", interaction_id, token)
+    return interaction_response()
+
+if __name__ == "__main__":
+    LOG.info("DM Hours handler bootstrapped.")
