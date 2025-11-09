@@ -1,16 +1,35 @@
 import unittest
 from datetime import date
 
+from app.database_connector import DatabaseConnector
 from app.database_interface import DatabaseInterface
 from app.log_hours_handler import LogHoursHandler
 
 
+class StubConnector(DatabaseConnector):
+    def _create_connection(self):
+        raise RuntimeError("Connector should not be used in tests")
+
+
 class FakeDatabase(DatabaseInterface):
     def __init__(self):
+        super().__init__(StubConnector())
         self.created_records = []
 
     def create_record(self, data):
         self.created_records.append(data)
+
+    def read_record(self, record_id):
+        return None
+
+    def update_record(self, record_id, data):
+        return None
+
+    def delete_record(self, record_id):
+        return None
+
+    def fetch_records(self, start_date=None, end_date=None, discord_name=None):
+        return []
 
 
 class LogHoursHandlerTestCase(unittest.TestCase):

@@ -7,19 +7,23 @@ try:
     from logger import Logger
     from log_hours_handler import LogHoursHandler
     from display_handler import DisplayHandler
-    from database_interface import DatabaseInterface
+    from database_handler_sql import DatabaseHandlerSQL
+    from database_connector import SQLiteConnector
     from discord_utils import reply, extract_user_id
     from utils import build_response
 except ImportError:  # pragma: no cover
     from app.logger import Logger
     from app.log_hours_handler import LogHoursHandler
     from app.display_handler import DisplayHandler
-    from app.database_interface import DatabaseInterface
+    from app.database_handler_sql import DatabaseHandlerSQL
+    from app.database_connector import SQLiteConnector
     from app.discord_utils import reply, extract_user_id
     from app.utils import build_response
 
 PUBLIC_KEY = os.getenv("PUBLIC_KEY")
-_database = DatabaseInterface()
+DB_PATH = os.getenv("DB_PATH", ":memory:")
+_db_connector = SQLiteConnector(DB_PATH)
+_database = DatabaseHandlerSQL(_db_connector)
 _log_hours_handler = LogHoursHandler(_database)
 _display_handler = DisplayHandler(_database)
 LOG = Logger(__file__)

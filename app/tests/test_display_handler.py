@@ -1,18 +1,37 @@
 import unittest
 from datetime import date
 
+from app.database_connector import DatabaseConnector
 from app.database_interface import DatabaseInterface
 from app.display_handler import DisplayHandler
 
 
+class StubConnector(DatabaseConnector):
+    def _create_connection(self):
+        raise RuntimeError("Connector should not be used in tests")
+
+
 class FakeDatabase(DatabaseInterface):
     def __init__(self):
+        super().__init__(StubConnector())
         self.records = []
         self.last_query = None
 
     def fetch_records(self, start_date=None, end_date=None, discord_name=None):
         self.last_query = (start_date, end_date, discord_name)
         return self.records
+
+    def create_record(self, data):
+        raise NotImplementedError
+
+    def read_record(self, record_id):
+        raise NotImplementedError
+
+    def update_record(self, record_id, data):
+        raise NotImplementedError
+
+    def delete_record(self, record_id):
+        raise NotImplementedError
 
 
 class DisplayHandlerTestCase(unittest.TestCase):
@@ -100,4 +119,3 @@ class DisplayHandlerTestCase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
