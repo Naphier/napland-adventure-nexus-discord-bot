@@ -1,4 +1,17 @@
-- [ ] IAC for Lambda and S3 bucket / subfolder
-- [ ] Python code to process the input, load the S3 file and add data, the S3 files should be one per year.
-- [ ] Additional commands to post the output on the server
+- [ ] Python code to process the input
 - [ ] EventBridge and schedule to run the Lambda every month and show the monthly stats
+- [ ] Add tests for database connectors
+- [ ] Ensure Tenacity retries run quickly during tests
+- [ ] Move concrete database connectors into dedicated modules
+- [ ] Add LOG messaging inside each database connector implementation
+- [ ] Introduce DB connector selection switch in `app/main.py`
+- [ ] Configure DB parameters via environment variables; pull secrets from AWS Secrets Manager in Lambda
+- [ ] Wire environment variables into Terraform inputs
+- [ ] Create Terragrunt configuration for provisioning RDS PostgreSQL
+- [ ] Document local PostgreSQL setup/hosting (include a helper script)
+- [ ] Add integration tests covering local hosting workflow
+- [ ] Separate dev/prod database names and credentials
+- [ ] Manage AWS Secrets Manager resources through Terragrunt
+- [ ] Define AWS IAM policies for Lambda access to secrets, RDS, and database connectivity
+- [ ] Provision AWS VPC networking for the Lambda functions
+- [ ] Configure AWS API Gateway in front of the Lambda
