@@ -8,7 +8,7 @@ try:
     from log_hours_handler import LogHoursHandler
     from display_handler import DisplayHandler
     from database_handler_sql import DatabaseHandlerSQL
-    from database_connector import SQLiteConnector
+    from sqlite_connector import SQLiteConnector
     from discord_utils import reply, extract_user_id
     from utils import build_response
 except ImportError:  # pragma: no cover
@@ -16,7 +16,7 @@ except ImportError:  # pragma: no cover
     from app.log_hours_handler import LogHoursHandler
     from app.display_handler import DisplayHandler
     from app.database_handler_sql import DatabaseHandlerSQL
-    from app.database_connector import SQLiteConnector
+    from app.sqlite_connector import SQLiteConnector
     from app.discord_utils import reply, extract_user_id
     from app.utils import build_response
 

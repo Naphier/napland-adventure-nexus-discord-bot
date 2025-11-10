@@ -2,7 +2,6 @@
 - [ ] EventBridge and schedule to run the Lambda every month and show the monthly stats
 - [ ] Add tests for database connectors
 - [ ] Ensure Tenacity retries run quickly during tests
-- [ ] Move concrete database connectors into dedicated modules
 - [ ] Add LOG messaging inside each database connector implementation
 - [ ] Introduce DB connector selection switch in `app/main.py`
 - [ ] Configure DB parameters via environment variables; pull secrets from AWS Secrets Manager in Lambda
